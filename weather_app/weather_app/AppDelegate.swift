@@ -7,16 +7,32 @@
 //
 
 import UIKit
+import Swinject
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    var window: UIWindow?
+    var assembler = ApplicationAssembler.shared
+    var currenWeatherModuleFactory: ModuleFactory<CurrentWeatherViewController>!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        installInitialModule()
         return true
     }
+    
+    func installInitialModule() {
+        
+        window = UIWindow()
+        
+        window?.rootViewController = UIViewController()
+        window?.makeKeyAndVisible()
+        
+        currenWeatherModuleFactory = ModuleFactory(with: assembler.resolver.resolve(CurrentWeatherViewController.self)!)
+        currenWeatherModuleFactory.produce(type: .forcePlaceRootOnWindow)
+    }
+
 
 }
 
