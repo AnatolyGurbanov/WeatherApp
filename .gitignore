@@ -228,3 +228,5 @@ iOSInjectionProject/
 # End of https://www.gitignore.io/api/xcode,macos,swift,appcode,cocoapods
 vivus.es/.DS_Store
 .DS_Store
+weather_app/weather_app.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+weather_app/weather_app.xcodeproj/xcuserdata/anatoly.xcuserdatad/xcschemes/xcschememanagement.plist
