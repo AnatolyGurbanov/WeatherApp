@@ -39,7 +39,8 @@ struct Coordinates: Codable {
 struct MainInfo: Codable {
 
     let temp: Double?
-    let pressure, humidity: Int?
+    let pressure: Double?
+    let humidity: Int?
     let tempMin, tempMax: Double?
 
     enum CodingKeys: String, CodingKey {
@@ -81,6 +82,7 @@ enum Main: String, Codable {
     case thunderStorm = "Thunderstorm"
     case drizzle = "Drizzle"
     case snow = "Snow"
+    case mist = "Mist"
 }
 
 enum Icon: String, Codable {
