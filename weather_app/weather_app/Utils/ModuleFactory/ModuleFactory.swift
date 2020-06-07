@@ -69,7 +69,8 @@ public class ModuleFactory <T: UIViewController> {
             if let closure = handler {
                 viewController = closure()
             }
-            UIApplication.shared.keyWindow?.rootViewController = viewController
+            let navigationController = UINavigationController(rootViewController: viewController)
+            UIApplication.shared.keyWindow?.rootViewController = navigationController
         }
         completionHandler?()
     }

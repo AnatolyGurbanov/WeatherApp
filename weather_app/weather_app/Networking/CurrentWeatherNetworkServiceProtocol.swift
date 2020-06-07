@@ -10,12 +10,12 @@ import Foundation
 import RxSwift
 
 protocol CurrentWeatherNetworkServiceProtocol {
-    func getCurrentWeatherData(for city: String?) -> Observable<CurrentWeather>
+    func getCurrentWeatherData(for city: String?) -> Observable<CurrentWeatherModel>
 }
 
 extension CurrentWeatherNetworkService: CurrentWeatherNetworkServiceProtocol {
     
-    func getCurrentWeatherData(for city: String?) -> Observable<CurrentWeather> {
+    func getCurrentWeatherData(for city: String?) -> Observable<CurrentWeatherModel> {
         
         var currentWeatherQueryItems = [String: String]()
         currentWeatherQueryItems["q"] =  city ?? "Cupertino"
@@ -30,7 +30,7 @@ extension CurrentWeatherNetworkService: CurrentWeatherNetworkServiceProtocol {
             requestPath = path
         }
         
-        return self.rxNetworkService.request(path: requestPath, method: .get)
+        return rxNetworkService.request(path: requestPath, method: .get)
         
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class BaseDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
 
-    weak var tableView: UITableView?
+    private weak var tableView: UITableView?
 
     init(tableView: UITableView) {
         super.init()
@@ -21,7 +21,9 @@ class BaseDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
 
     var items: [ItemProtocol] = [] {
         didSet {
-            self.items.map({$0.reuseIdentifier}).removeDuplicates().forEach({
+            self.items.map({$0.reuseIdentifier})
+                .reduce(into: [], { if !$0.contains($1) { $0 += [$1] } })
+                .forEach({
                 self.tableView?.register(UINib(nibName: $0, bundle: Bundle.main), forCellReuseIdentifier: $0)
             })
             self.tableView?.reloadData()

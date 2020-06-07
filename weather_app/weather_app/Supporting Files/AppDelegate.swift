@@ -17,12 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currenWeatherModuleFactory: ModuleFactory<CurrentWeatherViewController>!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+        
         installInitialModule()
+        
+        let design = Design()
+        design.apply()
         return true
     }
     
-    func installInitialModule() {
+    private func installInitialModule() {
         
         window = UIWindow()
         

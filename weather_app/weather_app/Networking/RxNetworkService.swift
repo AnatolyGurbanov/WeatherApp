@@ -24,14 +24,14 @@ enum ApiError: Error {
 
 protocol JSONRequestPerformingProtocol {
     
-    func request<ResponseType: Codable>(path: URL, method: HTTPMethod) -> Observable<ResponseType>
+    func request<ResponseType: Decodable>(path: URL, method: HTTPMethod) -> Observable<ResponseType>
 }
 
 class RxNetworkService: JSONRequestPerformingProtocol {
     
     let sessionManager = Session.default
 
-    func request<ResponseType: Codable>(path: URL, method: HTTPMethod) -> Observable<ResponseType> {
+    func request<ResponseType: Decodable>(path: URL, method: HTTPMethod) -> Observable<ResponseType> {
         
         return Observable<ResponseType>.create { observer -> Disposable in
             
@@ -79,7 +79,7 @@ class RxNetworkService: JSONRequestPerformingProtocol {
 
     }
     
-    private func tryParseResult<ResponseType: Codable>(observer: AnyObserver<ResponseType>, urlResponse: HTTPURLResponse?, responseData: Data) {
+    private func tryParseResult<ResponseType: Decodable>(observer: AnyObserver<ResponseType>, urlResponse: HTTPURLResponse?, responseData: Data) {
         
         if responseData.count == 0 {
             observer.onError(ApiError.dataIsEmpty)
@@ -87,7 +87,9 @@ class RxNetworkService: JSONRequestPerformingProtocol {
         }
         
         do {
-            let decodedValue: ResponseType = try JSONDecoder().decode(ResponseType.self, from: responseData)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let decodedValue: ResponseType = try decoder.decode(ResponseType.self, from: responseData)
             observer.onNext(decodedValue)
             observer.onCompleted()
         }

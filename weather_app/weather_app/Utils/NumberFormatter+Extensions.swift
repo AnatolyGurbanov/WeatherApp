@@ -9,17 +9,14 @@
 import Foundation
 
 extension NumberFormatter {
-    
-    
+
     public static var percentageFormatter: NumberFormatter {
         
         let percentFormatter = NumberFormatter()
         percentFormatter.numberStyle = .percent
         percentFormatter.multiplier = 1
-        percentFormatter.minimumFractionDigits = 1
-        percentFormatter.maximumFractionDigits = 2
+        percentFormatter.maximumFractionDigits = 0
         
         return percentFormatter
     }
-    
 }
