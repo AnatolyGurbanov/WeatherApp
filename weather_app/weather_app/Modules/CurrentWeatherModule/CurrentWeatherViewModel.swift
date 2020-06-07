@@ -170,6 +170,6 @@ class CurrentWeatherViewModel: NSObject {
 
         let directions = ["С", "ССВ", "СВ", "ВСВ", "В", "ВЮВ", "ЮВ", "ЮЮВ", "Ю", "ЮЮЗ", "ЮЗ", "ЗЮЗ", "З", "ЗСЗ", "СХ", "ССЗ"]
         let index: Int = Int((degrees + 11.25)/22.5)
-        return directions[index % 16]
+        return directions[index % directions.count]
     }
 }
