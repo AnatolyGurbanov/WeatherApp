@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tqD-Xh-jfH">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Current Weather View Controller-->
+        <scene sceneID="Ngl-2j-v33">
+            <objects>
+                <viewController id="tqD-Xh-jfH" customClass="CurrentWeatherViewController" customModule="weather_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FS1-9Q-FYR" customClass="CurrentWeatherView" customModule="weather_app" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4kz-KR-ppe">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="4kz-KR-ppe" secondAttribute="bottom" id="Ojd-pD-XXZ"/>
+                            <constraint firstItem="4kz-KR-ppe" firstAttribute="top" secondItem="Dqw-0P-Enl" secondAttribute="top" id="fWL-Bg-Mpw"/>
+                            <constraint firstAttribute="trailing" secondItem="4kz-KR-ppe" secondAttribute="trailing" id="mA5-SH-Evd"/>
+                            <constraint firstItem="4kz-KR-ppe" firstAttribute="leading" secondItem="FS1-9Q-FYR" secondAttribute="leading" id="zto-UY-8Kw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Dqw-0P-Enl"/>
+                        <connections>
+                            <outlet property="tableView" destination="4kz-KR-ppe" id="VaA-TG-hUh"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="rootView" destination="FS1-9Q-FYR" id="Hx0-P0-lSs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gTL-JG-eVb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="41" y="83"/>
+        </scene>
+    </scenes>
+</document>
