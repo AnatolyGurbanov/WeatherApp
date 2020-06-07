@@ -16,14 +16,11 @@ class SpacingCell: UITableViewCell, CellWithItem {
     
     @IBOutlet weak var space: NSLayoutConstraint!
     
-    var cellItem: SpacingItem!
-    
     func setItem(item: Any) {
         
         guard let item = item as? SpacingItem else {return}
-        self.cellItem = item
-        self.space.constant = self.cellItem.space
-        self.backgroundColor = self.cellItem.backgroundColor
+        space.constant = item.space
+        backgroundColor = item.backgroundColor
     }
 }
 

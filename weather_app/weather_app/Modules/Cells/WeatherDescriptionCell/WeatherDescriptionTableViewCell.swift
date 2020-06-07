@@ -13,20 +13,12 @@ class WeatherDescriptionTableViewCell: UITableViewCell, CellWithItem {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     
-    var cellItem: WeatherDescriptionItem!
-    
     func setItem(item: Any) {
         
         guard let item = item as? WeatherDescriptionItem else { return }
-        self.cellItem = item
-        self.titleLabel.text = self.cellItem.title
-        self.valueLabel.text = self.cellItem.value
-    }
-    
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+        titleLabel.text = item.title
+        valueLabel.text = item.value
     }
     
 }

@@ -13,22 +13,13 @@ class HeaderTableViewCell: UITableViewCell, CellWithItem {
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var weatherDescriptionLabel: UILabel!
     @IBOutlet weak var tempratureLabel: UILabel!
-
-    var cellItem: HeaderItem!
     
     func setItem(item: Any) {
 
         guard let item = item as? HeaderItem else { return }
-        self.cellItem = item
-        self.cityNameLabel.text = self.cellItem.cityName
-        self.weatherDescriptionLabel.text = self.cellItem.weatherDescription
-        self.tempratureLabel.text = self.cellItem.currentTemp
-    }
-    
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+        self.cityNameLabel.text = item.cityName
+        self.weatherDescriptionLabel.text = item.weatherDescription
+        self.tempratureLabel.text = item.currentTemp
     }
     
 }

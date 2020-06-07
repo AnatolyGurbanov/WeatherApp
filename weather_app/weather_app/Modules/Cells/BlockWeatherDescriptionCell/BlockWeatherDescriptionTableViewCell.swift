@@ -14,22 +14,15 @@ class BlockWeatherDescriptionTableViewCell: UITableViewCell, CellWithItem {
     @IBOutlet weak var firstValueLabel: UILabel!
     @IBOutlet weak var secondTitleLabel: UILabel!
     @IBOutlet weak var secondValueLabel: UILabel!
-
-    var cellItem: BlockWeatherDescriptionItem!
     
     func setItem(item: Any) {
 
         guard let item = item as? BlockWeatherDescriptionItem else { return }
-        self.cellItem = item
-        self.firstTitleLabel.text = self.cellItem.firstTitle
-        self.firstValueLabel.text = self.cellItem.firstValue
-        self.secondTitleLabel.text = self.cellItem.secondTitle
-        self.secondValueLabel.text = self.cellItem.secondValue
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+
+        firstTitleLabel.text = item.firstTitle
+        firstValueLabel.text = item.firstValue
+        secondTitleLabel.text = item.secondTitle
+        secondValueLabel.text = item.secondValue
     }
     
 }
