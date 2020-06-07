@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - CurrentWeather
-struct CurrentWeather: Codable {
+struct CurrentWeatherModel: Decodable {
 
     let coord: Coordinates?
     let weather: [Weather]?
@@ -18,63 +18,56 @@ struct CurrentWeather: Codable {
     let visibility: Int?
     let wind: Wind?
     let clouds: Clouds?
-    let dt: Int?
+    let dt: Double?
     let sys: InternalParameters?
     let id: Int?
+    let timezone: Int?
     let name: String?
     let cod: Int?
 }
 
 // MARK: - Clouds
-struct Clouds: Codable {
+struct Clouds: Decodable {
     let all: Int?
 }
 
 // MARK: - Coordinates
-struct Coordinates: Codable {
-    let lon, lat: Double?
+struct Coordinates: Decodable {
+    let lon: Double?
+    let lat: Double?
 }
 
 // MARK: - Main
-struct MainInfo: Codable {
+struct MainInfo: Decodable {
 
     let temp: Double?
     let pressure: Double?
     let humidity: Int?
-    let tempMin, tempMax: Double?
-
-    enum CodingKeys: String, CodingKey {
-        case temp, pressure, humidity
-        case tempMin = "temp_min"
-        case tempMax = "temp_max"
-    }
+    let tempMin: Double?
+    let tempMax: Double?
 }
 
 // MARK: - Internal Parameters
-struct InternalParameters: Codable {
+struct InternalParameters: Decodable {
 
-    let type, id: Int?
+    let type: Int?
+    let id: Int?
     let message: Double?
     let country: String?
-    let sunrise, sunset: Int?
+    let sunrise: Double?
+    let sunset: Double?
 }
 
 // MARK: - Weather
-struct Weather: Codable {
+struct Weather: Decodable {
 
     let id: Int?
     let main: Main?
-    let weatherDescription: String?
+    let description: String?
     let icon: Icon?
-
-    enum CodingKeys: String, CodingKey {
-        case id, main
-        case weatherDescription = "description"
-        case icon
-    }
 }
 
-enum Main: String, Codable {
+enum Main: String, Decodable {
 
     case clear = "Clear"
     case clouds = "Clouds"
@@ -85,7 +78,7 @@ enum Main: String, Codable {
     case mist = "Mist"
 }
 
-enum Icon: String, Codable {
+enum Icon: String, Decodable {
 
     case the01D = "01d"
     case the01N = "01n"
@@ -108,8 +101,8 @@ enum Icon: String, Codable {
 }
 
 // MARK: - Wind
-struct Wind: Codable {
+struct Wind: Decodable {
 
     let speed: Double?
-    let deg: Int?
+    let deg: Float?
 }

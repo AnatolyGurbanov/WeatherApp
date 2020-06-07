@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - DailyForcast
-struct DailyForcast: Codable {
+struct DailyForcastModel: Decodable {
 
     let cod: String?
     let message: Int?
@@ -19,22 +19,20 @@ struct DailyForcast: Codable {
 }
 
 // MARK: - City
-struct City: Codable {
+struct City: Decodable {
 
     let geonameID: Int?
     let name: String?
-    let lat, lon: Double?
-    let country, iso2, type: String?
+    let lat: Double?
+    let lon: Double?
+    let country: String?
+    let iso2: String?
+    let type: String?
     let population: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case geonameID = "geoname_id"
-        case name, lat, lon, country, iso2, type, population
-    }
 }
 
 // MARK: - List
-struct List: Codable {
+struct List: Decodable {
 
     let dt: Int?
     let temp: Temp?
@@ -42,16 +40,22 @@ struct List: Codable {
     let humidity: Int?
     let weather: [Weather]?
     let speed: Double?
-    let deg, clouds: Int?
-    let rain, snow: Double?
+    let deg: Int?
+    let clouds: Int?
+    let rain: Double?
+    let snow: Double?
 }
 
 // MARK: - Temp
-struct Temp: Codable {
-    let day, eve, morn, night: Double?
+struct Temp: Decodable {
+
+    let day: Double?
+    let eve: Double?
+    let morn: Double?
+    let night: Double?
 }
 
-enum Description: String, Codable {
+enum Description: String, Decodable {
 
     case lightRain = "light rain"
     case moderateRain = "moderate rain"
