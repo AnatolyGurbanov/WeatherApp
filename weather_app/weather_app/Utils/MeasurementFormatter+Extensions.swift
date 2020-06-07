@@ -9,8 +9,7 @@
 import Foundation
 
 extension MeasurementFormatter {
-    
-    
+
     public static var temperatureFormatter: MeasurementFormatter {
 
         let tempFortmatter = MeasurementFormatter()
@@ -19,16 +18,6 @@ extension MeasurementFormatter {
         tempFortmatter.numberFormatter.maximumFractionDigits = 0
         
         return tempFortmatter
-    }
-    
-    public static var speedFormatter: MeasurementFormatter {
-
-        let speedFormatter = MeasurementFormatter()
-        speedFormatter.unitOptions = .providedUnit
-        speedFormatter.unitStyle = .short
-        speedFormatter.locale = Locale(identifier: "ru_RU")
-        
-        return speedFormatter
     }
     
 }

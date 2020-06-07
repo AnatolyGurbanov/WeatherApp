@@ -16,28 +16,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Lm-Vb-TSI">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4kz-KR-ppe">
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="3Lm-Vb-TSI" secondAttribute="bottom" id="444-mS-Eno"/>
-                            <constraint firstAttribute="trailing" secondItem="3Lm-Vb-TSI" secondAttribute="trailing" id="5HL-9P-jS0"/>
                             <constraint firstAttribute="bottom" secondItem="4kz-KR-ppe" secondAttribute="bottom" id="Ojd-pD-XXZ"/>
                             <constraint firstItem="4kz-KR-ppe" firstAttribute="top" secondItem="Dqw-0P-Enl" secondAttribute="top" id="fWL-Bg-Mpw"/>
-                            <constraint firstItem="3Lm-Vb-TSI" firstAttribute="leading" secondItem="FS1-9Q-FYR" secondAttribute="leading" id="lBF-wR-lrY"/>
                             <constraint firstAttribute="trailing" secondItem="4kz-KR-ppe" secondAttribute="trailing" id="mA5-SH-Evd"/>
-                            <constraint firstItem="3Lm-Vb-TSI" firstAttribute="top" secondItem="FS1-9Q-FYR" secondAttribute="top" id="siY-RR-HDx"/>
                             <constraint firstItem="4kz-KR-ppe" firstAttribute="leading" secondItem="FS1-9Q-FYR" secondAttribute="leading" id="zto-UY-8Kw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Dqw-0P-Enl"/>
                         <connections>
-                            <outlet property="backgroundWeatherView" destination="3Lm-Vb-TSI" id="4er-Da-lRv"/>
                             <outlet property="tableView" destination="4kz-KR-ppe" id="VaA-TG-hUh"/>
                         </connections>
                     </view>

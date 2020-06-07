@@ -10,8 +10,8 @@ import UIKit
 
 public class ModuleFactory <T: UIViewController> {
     
-    public let destination: T?
-    public let handler: (() -> T)?
+    private let destination: T?
+    private let handler: (() -> T)?
     
     public init(with viewController: T) {
         destination = viewController
@@ -77,6 +77,7 @@ public class ModuleFactory <T: UIViewController> {
 }
 
 extension ModuleFactory: Equatable where T: UIViewController {
+
     public static func == (lhs: ModuleFactory<T>, rhs: ModuleFactory<T>) -> Bool {
         return lhs.destination == rhs.destination
     }

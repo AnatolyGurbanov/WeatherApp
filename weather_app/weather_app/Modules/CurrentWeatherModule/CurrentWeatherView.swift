@@ -11,6 +11,8 @@ import UIKit
 class CurrentWeatherView: UIView {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var backgroundWeatherView: UIImageView!
     
+    func decorate() {
+        self.backgroundColor = UIColor(red: 0.29, green: 0.60, blue: 0.52, alpha: 1.00)
+    }
 }

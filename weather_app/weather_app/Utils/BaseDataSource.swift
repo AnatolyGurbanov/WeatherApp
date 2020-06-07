@@ -21,8 +21,8 @@ class BaseDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
 
     var items: [ItemProtocol] = [] {
         didSet {
-            self.items.map({$0.reuseIdentifier})
-                .reduce(into: [], { if !$0.contains($1) { $0 += [$1] } })
+            self.items.map{$0.reuseIdentifier}
+                .withRemovedDuplicates()
                 .forEach({
                 self.tableView?.register(UINib(nibName: $0, bundle: Bundle.main), forCellReuseIdentifier: $0)
             })

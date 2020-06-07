@@ -8,16 +8,18 @@
 
 import UIKit
 import RxSwift
+import CoreLocation
 
 class CurrentWeatherViewController: UIViewController {
     
     private let bag = DisposeBag()
 
     var viewModel: CurrentWeatherViewModel!
+    private var locationManager = CLLocationManager()
     private var dataSource: BaseDataSource!
     @IBOutlet var rootView: CurrentWeatherView!
     
-    let refreshControl: UIRefreshControl = {
+    private let refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(refreshData(sender:)), for: .valueChanged)
         return control
@@ -27,31 +29,46 @@ class CurrentWeatherViewController: UIViewController {
         
         dataSource = BaseDataSource(tableView: rootView.tableView)
         rootView.tableView.refreshControl = refreshControl
+        rootView.decorate()
         
         viewModel.items.subscribe(onNext: { [weak self] (items) in
             guard let self = self,
-            let rows = items else { return }
-
+                let rows = items else { return }
             self.dataSource.items = rows
         }).disposed(by: bag)
         
-        let cachedCity = UserDefaults.standard.string(forKey: "city")
-        viewModel.buildRows(cityName: cachedCity)
+        viewModel.buildRows(cityName: DiskCache().requestCity())
+        locationManager.requestWhenInUseAuthorization()
         
         setUpNavigatiionBar()
-        
     }
     
     @objc
     private func refreshData(sender: UIRefreshControl) {
-        let cachedCity = UserDefaults.standard.string(forKey: "city")
-        viewModel.buildRows(cityName: cachedCity)
+
+        viewModel.buildRows(cityName: DiskCache().requestCity())
         sender.endRefreshing()
     }
     
     private func setUpNavigatiionBar() {
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "ГОРОД", style: .plain, target: self, action: #selector(showNewCityInfo))
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+
+        let addCityButton = UIBarButtonItem(image: .cityButtonIcon,
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(showNewCityInfo))
+        addCityButton.tintColor = .white
+        navigationItem.rightBarButtonItem = addCityButton
+        
+        let locationButton = UIBarButtonItem(image: .locationButtonIcon,
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(getCityInfoWithLocation))
+        locationButton.tintColor = .white
+        navigationItem.leftBarButtonItem = locationButton
     }
     
     @objc
@@ -75,7 +92,44 @@ class CurrentWeatherViewController: UIViewController {
         }
         
         present(alertController, animated: true)
+    }
+    
+    @objc
+    private func getCityInfoWithLocation() {
+
+        var currentLoc: CLLocation!
+        let locationStatus = CLLocationManager.authorizationStatus()
+
+        switch locationStatus {
+        case .authorizedWhenInUse:
+
+            currentLoc = locationManager.location
+            viewModel.getWeather(latitude: currentLoc.coordinate.latitude.description,
+                                 longitude: currentLoc.coordinate.latitude.description)
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            showStatusDeniedAlert()
+        }
         
+    }
+    
+    private func showStatusDeniedAlert() {
+
+        let alertController = UIAlertController(title: "Отсутсвует доступ к геолокации",
+                                                message: "Для показа информации о погоде по геолокации необходимо открыть настройки приложения и включить доступ к геопозиции.",
+                                                preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "Закрыть", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Открыть настройки", style: .`default`, handler: { action in
+            
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }))
+        present(alertController, animated: true)
     }
     
 }

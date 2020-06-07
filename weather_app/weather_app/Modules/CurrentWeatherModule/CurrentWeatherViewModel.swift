@@ -57,22 +57,24 @@ class CurrentWeatherViewModel: NSObject {
         
         if let windSpeed = model.wind?.speed, let windDirection = model.wind?.deg {
             
-            let speedMeasurement = Measurement(value: windSpeed, unit: UnitSpeed.metersPerSecond)
+            let windSpeedValue = formatSpeed(value: windSpeed, locale: "ru_RU")
+            let windDirectionValue = windDirectionFromDegrees(degrees: windDirection)
             
             let windItem = BlockWeatherDescriptionItem(firstTitle: "Скорость ветра",
-                                                       firstValue: MeasurementFormatter.speedFormatter.string(from: speedMeasurement),
+                                                       firstValue: windSpeedValue,
                                                        secondTitle: "Направление ветра",
-                                                       secondValue: windDirectionFromDegrees(degrees: windDirection))
-            
+                                                       secondValue: windDirectionValue)
+
             cellItems.append(windItem)
             cellItems.append(SpacingItem(space: 1, backgroundColor: .lightGray))
         }
         
         if let pressure = model.main?.pressure {
             
-            let pressureValue = convertPressure(from: pressure, with: "ru_RU")
+            let pressureValue = convertPressure(from: pressure, locale: "ru_RU")
             let pressureItem = WeatherDescriptionItem(title: "Давление",
                                                       value: pressureValue)
+
             cellItems.append(pressureItem)
             cellItems.append(SpacingItem(space: 1, backgroundColor: .lightGray))
         }
@@ -95,7 +97,7 @@ class CurrentWeatherViewModel: NSObject {
         
         if let visibility = model.visibility {
             
-            let visibilityValue = convertVisibility(from: visibility, with: "ru_RU")
+            let visibilityValue = convertVisibility(from: visibility, locale: "ru_RU")
             let visibilityItem = WeatherDescriptionItem(title: "Видимость",
                                                         value: visibilityValue)
             cellItems.append(visibilityItem)
@@ -106,28 +108,59 @@ class CurrentWeatherViewModel: NSObject {
     
     func buildRows(cityName: String?) {
 
-        var city: String = ""
-
-        if let cityName = cityName {
-            city = cityName
-        }
+        let city = cityName ?? "Ясно"
 
         getWeather(city: city)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] (weather) in
                 guard let self = self else { return }
-                UserDefaults.standard.set(weather.name, forKey: "city")
+                if let cityName = weather.name {
+                    DiskCache().saveCity(cityString: cityName)
+                }
                 self.buildRowItems(by: weather)
+                }, onError: { [weak self] (_) in
+                    guard let self = self else { return }
+                    self.loadFailed()
             })
             .disposed(by: bag)
     }
     
-    func getWeather(city: String?) -> Observable<CurrentWeatherModel> {
+    func getWeather(city: String) -> Observable<CurrentWeatherModel> {
         
-        return networkService.getCurrentWeatherData(for: city)
+        return networkService.getCurrentWeatherData(city: city,
+                                                    language: Language.russian)
     }
     
-    private func dateFormat(by timeStamp: Double, with timezone: Int) -> String {
+    func getWeather(latitude: String, longitude: String) {
+        
+        networkService.getCurrentWeatherData(latitude: latitude,
+                                             longitude: longitude,
+                                             language: Language.russian)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (weather) in
+                guard let self = self else { return }
+                
+                if let cityName = weather.name {
+                    DiskCache().saveCity(cityString: cityName)
+                }
+                self.buildRowItems(by: weather)
+                }, onError: { [weak self] (_) in
+                    guard let self = self else { return }
+                    self.loadFailed()
+            })
+            .disposed(by: bag)
+    }
+    
+    private func loadFailed() {
+        
+        let headerItem = HeaderItem(cityName: "Ошибка",
+                                    weatherDescription: "Что-то пошло не так, возможно нет подключения к интернету или вы ввели несуществующий город. Проверьте соединение и попробуйте снова.",
+                                    currentTemp: nil)
+
+        items.onNext([headerItem])
+    }
+    
+    private func dateFormat(by timeStamp: TimeInterval, with timezone: Int) -> String {
         
         let date = Date(timeIntervalSince1970: timeStamp)
         let dateFormatter = DateFormatter()
@@ -138,7 +171,7 @@ class CurrentWeatherViewModel: NSObject {
         
     }
     
-    private func convertPressure(from value: Double, with locale: String) -> String {
+    private func convertPressure(from value: Double, locale: String) -> String {
         
         let pressureFormatter = MeasurementFormatter()
         pressureFormatter.unitOptions = .providedUnit
@@ -152,7 +185,7 @@ class CurrentWeatherViewModel: NSObject {
         return pressureFormatter.string(from: outputValue)
     }
     
-    private func convertVisibility(from value: Int, with locale: String) -> String {
+    private func convertVisibility(from value: Int, locale: String) -> String {
         
         let visibilityFormatter = MeasurementFormatter()
         visibilityFormatter.unitOptions = .providedUnit
@@ -164,6 +197,17 @@ class CurrentWeatherViewModel: NSObject {
         let outputValue = inputValue.converted(to: UnitLength.kilometers)
         
         return visibilityFormatter.string(from: outputValue)
+    }
+    
+    private func formatSpeed(value: Double, locale: String) -> String {
+        
+        let speedFormatter = MeasurementFormatter()
+        speedFormatter.unitOptions = .providedUnit
+        speedFormatter.unitStyle = .short
+        speedFormatter.locale = Locale(identifier: locale)
+        let speedValue = Measurement(value: value, unit: UnitSpeed.metersPerSecond)
+        
+        return speedFormatter.string(from: speedValue)
     }
     
     private func windDirectionFromDegrees(degrees: Float) -> String {
