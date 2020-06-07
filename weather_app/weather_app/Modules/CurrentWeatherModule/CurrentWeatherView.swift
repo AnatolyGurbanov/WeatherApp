@@ -11,5 +11,6 @@ import UIKit
 class CurrentWeatherView: UIView {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var backgroundWeatherView: UIImageView!
     
 }

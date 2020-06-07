@@ -44,6 +44,7 @@ class HeaderItem: NSObject, ItemProtocol {
     }
 
     init(cityName: String? = nil, weatherDescription: String? = nil, currentTemp: String? = nil) {
+
         self.cityName = cityName
         self.weatherDescription = weatherDescription
         self.currentTemp = currentTemp

@@ -8,17 +8,49 @@
 
 import UIKit
 
-class BlockWeatherDescriptionTableViewCell: UITableViewCell {
+class BlockWeatherDescriptionTableViewCell: UITableViewCell, CellWithItem {
 
+    @IBOutlet weak var firstTitleLabel: UILabel!
+    @IBOutlet weak var firstValueLabel: UILabel!
+    @IBOutlet weak var secondTitleLabel: UILabel!
+    @IBOutlet weak var secondValueLabel: UILabel!
+
+    var cellItem: BlockWeatherDescriptionItem!
+    
+    func setItem(item: Any) {
+
+        guard let item = item as? BlockWeatherDescriptionItem else { return }
+        self.cellItem = item
+        self.firstTitleLabel.text = self.cellItem.firstTitle
+        self.firstValueLabel.text = self.cellItem.firstValue
+        self.secondTitleLabel.text = self.cellItem.secondTitle
+        self.secondValueLabel.text = self.cellItem.secondValue
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
+    
+}
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+class BlockWeatherDescriptionItem: NSObject, ItemProtocol {
+    
+    var firstTitle: String?
+    var firstValue: String?
+    var secondTitle: String?
+    var secondValue: String?
 
-        // Configure the view for the selected state
+    var reuseIdentifier: String {
+        return BlockWeatherDescriptionTableViewCell.className
+    }
+    
+    init(firstTitle: String? = nil, firstValue: String? = nil, secondTitle: String? = nil, secondValue: String? = nil) {
+
+        self.firstTitle = firstTitle
+        self.firstValue = firstValue
+        self.secondTitle = secondTitle
+        self.secondValue = secondValue
     }
     
 }

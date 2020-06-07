@@ -11,7 +11,7 @@ import Foundation
 extension MeasurementFormatter {
     
     
-    public static var tempratureFormatter: MeasurementFormatter {
+    public static var temperatureFormatter: MeasurementFormatter {
 
         let tempFortmatter = MeasurementFormatter()
         tempFortmatter.unitOptions = .providedUnit
@@ -29,6 +29,16 @@ extension MeasurementFormatter {
         pressureFormatter.locale = Locale(identifier: "ru_RU")
         
         return pressureFormatter
+    }
+    
+    public static var speedFormatter: MeasurementFormatter {
+
+        let speedFormatter = MeasurementFormatter()
+        speedFormatter.unitOptions = .providedUnit
+        speedFormatter.unitStyle = .short
+        speedFormatter.locale = Locale(identifier: "ru_RU")
+        
+        return speedFormatter
     }
     
 }

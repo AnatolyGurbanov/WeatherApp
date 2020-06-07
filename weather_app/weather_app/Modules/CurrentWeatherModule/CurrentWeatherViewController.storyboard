@@ -37,6 +37,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Dqw-0P-Enl"/>
                         <connections>
+                            <outlet property="backgroundWeatherView" destination="3Lm-Vb-TSI" id="4er-Da-lRv"/>
                             <outlet property="tableView" destination="4kz-KR-ppe" id="VaA-TG-hUh"/>
                         </connections>
                     </view>

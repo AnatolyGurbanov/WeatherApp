@@ -41,6 +41,7 @@ class WeatherDescriptionItem: NSObject, ItemProtocol {
     }
     
     init(title: String? = nil, value: String? = nil) {
+
         self.title = title
         self.value = value
     }
