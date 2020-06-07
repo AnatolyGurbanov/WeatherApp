@@ -14,7 +14,7 @@ class CurrentWeatherModuleContainer: Assembly {
     func assemble(container: Container) {
         
         container.register(ModuleFactory<CurrentWeatherViewController>.self,
-                           name: "CurrentWeatherViewController") { resolver in
+                           name: CurrentWeatherViewController.className) { resolver in
 
             return ModuleFactory<CurrentWeatherViewController>(with: {
                 return resolver.resolve(CurrentWeatherViewController.self)!

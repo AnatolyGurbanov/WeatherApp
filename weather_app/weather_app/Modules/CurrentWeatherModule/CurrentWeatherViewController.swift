@@ -12,22 +12,24 @@ import RxSwift
 class CurrentWeatherViewController: UIViewController {
     
     private let bag = DisposeBag()
+
     var viewModel: CurrentWeatherViewModel!
+    var dataSource: BaseDataSource!
+    @IBOutlet var rootView: CurrentWeatherView!
     
     override func viewDidLoad() {
+        
+        dataSource = BaseDataSource(tableView: rootView.tableView)
+        
+        self.viewModel.items.subscribe(onNext: { [weak self] (items) in
+            guard let self = self,
+            let rows = items else { return }
 
-        self.viewModel.getWeather(city: "Cupertino")
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (weather) in
-                guard let self = self else { return }
-                print("weather is getted")
-            }, onError: { [weak self] (error) in
-                guard let self = self else { return }
-                print("error")
-            }, onCompleted: {
-                print("Completed")
-            })
-            .disposed(by: bag)
+            self.dataSource.items = rows
+        }).disposed(by: bag)
+        
+        self.viewModel.buildRows()
+        
     }
     
 }
