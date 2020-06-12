@@ -19,11 +19,7 @@ class CurrentWeatherViewController: UIViewController {
     private var dataSource: BaseDataSource!
     @IBOutlet var rootView: CurrentWeatherView!
     
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(refreshData(sender:)), for: .valueChanged)
-        return control
-    }()
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         
