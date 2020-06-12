@@ -20,18 +20,23 @@ enum ApiError: Error {
     case internalServerError    //Status code 500
     case dataIsEmpty
     case unknownError
+    case invalidURL
 }
 
 protocol JSONRequestPerformingProtocol {
     
-    func request<ResponseType: Decodable>(path: URL, method: HTTPMethod) -> Observable<ResponseType>
+    func request<ResponseType: Decodable>(path: URL?, method: HTTPMethod) -> Observable<ResponseType>
 }
 
 class RxNetworkService: JSONRequestPerformingProtocol {
     
     let sessionManager = Session.default
 
-    func request<ResponseType: Decodable>(path: URL, method: HTTPMethod) -> Observable<ResponseType> {
+    func request<ResponseType: Decodable>(path: URL?, method: HTTPMethod) -> Observable<ResponseType> {
+        
+        guard let path = path else {
+            return Observable.error(ApiError.invalidURL)
+        }
         
         return Observable<ResponseType>.create { observer -> Disposable in
             

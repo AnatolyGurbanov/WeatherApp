@@ -27,20 +27,30 @@ class CurrentWeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        dataSource = BaseDataSource(tableView: rootView.tableView)
-        rootView.tableView.refreshControl = refreshControl
         rootView.decorate()
-        
+
         viewModel.items.subscribe(onNext: { [weak self] (items) in
             guard let self = self,
                 let rows = items else { return }
             self.dataSource.items = rows
         }).disposed(by: bag)
-        
-        viewModel.buildRows(cityName: DiskCache().requestCity())
+
         locationManager.requestWhenInUseAuthorization()
-        
+        configureWeatherTableView()
+        configureRefreshControl()
         setUpNavigatiionBar()
+    }
+    
+    private func configureWeatherTableView() {
+
+        dataSource = BaseDataSource(tableView: rootView.tableView)
+        viewModel.buildRows(cityName: DiskCache().requestCity())
+    }
+    
+    private func configureRefreshControl() {
+        
+        refreshControl.addTarget(self, action: #selector(refreshData(sender:)), for: .valueChanged)
+        rootView.tableView.refreshControl = refreshControl
     }
     
     @objc
