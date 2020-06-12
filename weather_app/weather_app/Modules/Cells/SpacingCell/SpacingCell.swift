@@ -26,12 +26,14 @@ class SpacingCell: UITableViewCell, CellWithItem {
 
 class SpacingItem: NSObject, ColorobleItem, ItemProtocol {
     
+    static let separatorView = SpacingItem(space: 1, backgroundColor: .lightGray)
+    
     var space: CGFloat
     var backgroundColor: UIColor
     var reuseIdentifier: String {
         return SpacingCell.className
     }
-    
+
     init(space: CGFloat, backgroundColor: UIColor = .clear) {
         
         self.space = space
