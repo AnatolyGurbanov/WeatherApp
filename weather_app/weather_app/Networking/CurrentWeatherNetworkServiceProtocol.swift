@@ -23,9 +23,9 @@ extension CurrentWeatherNetworkService: CurrentWeatherNetworkServiceProtocol {
         currentWeatherQueryItems["q"] =  city
         currentWeatherQueryItems["lang"] = language
         currentWeatherQueryItems["units"] = Units.metric.rawValue
-        currentWeatherQueryItems["appid"] = "718c08d192ca438ac00db7e22414c4d8"
+        currentWeatherQueryItems["appid"] = APIURL.apiKey
 
-        var requestPath: URL = URL(string: "www.google.com")!
+        var requestPath: URL? = nil
         if let path = try? URLBuilder().buildUrl(host: APIURL.host,
                                          path: APIURL.weatherPath,
                                          queryItems: currentWeatherQueryItems) {
@@ -42,9 +42,9 @@ extension CurrentWeatherNetworkService: CurrentWeatherNetworkServiceProtocol {
         currentWeatherQueryItems["lon"] = longitude
         currentWeatherQueryItems["lang"] = language
         currentWeatherQueryItems["units"] = Units.metric.rawValue
-        currentWeatherQueryItems["appid"] = "718c08d192ca438ac00db7e22414c4d8"
+        currentWeatherQueryItems["appid"] = APIURL.apiKey
         
-        var requestPath: URL = URL(string: "www.google.com")!
+        var requestPath: URL? = nil
         if let path = try? URLBuilder().buildUrl(host: APIURL.host,
                                          path: APIURL.weatherPath,
                                          queryItems: currentWeatherQueryItems) {

@@ -13,6 +13,7 @@ public struct APIURL {
     static let host = "api.openweathermap.org"
     static let weatherPath = "/data/2.5/weather"
     static let dailyForecastPath = "/data/2.5/forecast/daily"
+    static let apiKey = "718c08d192ca438ac00db7e22414c4d8"
 }
 
 public struct Language {
